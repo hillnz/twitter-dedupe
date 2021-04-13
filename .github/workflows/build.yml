@@ -32,6 +32,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
+          load: true
           tags: test
 
       - name: Test
