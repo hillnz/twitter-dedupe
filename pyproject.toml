@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "twitter-dedupe"
-version = "0.7.1"
+version = "0.7.2"
 description = "Python library to retweet unique links from noisy Twitter accounts."
 license = "MIT"
 authors = [
