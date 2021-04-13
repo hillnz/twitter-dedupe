@@ -16,4 +16,5 @@ WORKDIR /app
 COPY --from=deps /app/requirements.txt /app/
 RUN pip install -r requirements.txt
 
-ENTRYPOINT [ "python", "-m", "twitterdedupe" ]
+ENTRYPOINT [ "python" ] 
+CMD [ "-m", "twitterdedupe" ]
