@@ -3,7 +3,7 @@ caches
 From http://blog.seevl.fm/2013/11/22/simple-caching-with-redis/
 """
 
-import cPickle
+import pickle
 
 
 class RedisCache(object):
@@ -22,15 +22,15 @@ class RedisCache(object):
         timeout = timeout or self._timeout
         key = self._prefix + key
         # Add key and define an expire timeout in a pipeline for atomicity
-        self._redis.pipeline().set(key, cPickle.dumps(value)).expire(key, timeout).execute()
+        self._redis.pipeline().set(key, pickle.dumps(value)).expire(key, timeout).execute()
 
     def get(self, key):
         """Get key-value from cache"""
         data = self._redis.get(self._prefix + key)
-        return (data and cPickle.loads(data)) or None
+        return (data and pickle.loads(data)) or None
 
     def flush(self, pattern='', step=1000):
         """Flush all cache (by group of step keys for efficiency),
         or only keys matching an optional pattern"""
         keys = self._redis.keys(self._prefix + pattern + '*')
-        [self._redis.delete(*keys[i:i+step]) for i in xrange(0, len(keys), step)]
+        [self._redis.delete(*keys[i:i+step]) for i in range(0, len(keys), step)]

@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "twitter-dedupe"
+version = "0.7.0"
+description = "Python library to retweet unique links from noisy Twitter accounts."
+license = "MIT"
+authors = [
+    "Chris Heisel <chris@heisel.org>",
+    "Jono Hill <jono@hillnz.com>"
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.25.1"
+redis = "^3.5.3"
+tweepy = "^3.10.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

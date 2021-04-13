@@ -3,7 +3,7 @@ import logging
 import tweepy
 import requests
 
-from urlparse import urlsplit, urlunsplit
+from urllib.parse import urlsplit, urlunsplit
 
 
 def login(consumer_key, consumer_secret, access_token, access_token_secret):

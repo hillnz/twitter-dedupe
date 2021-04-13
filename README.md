@@ -1,9 +1,11 @@
 twitter-dedupe
 ==============
 
-![travis-ci status](https://api.travis-ci.org/cmheisel/twitter-dedupe.png?branch=master)
-
 Python library to retweet unique links from noisy Twitter accounts.
+
+## Acknowledgement
+
+This is a fork of [cmheisel/twitter-dedupe](https://github.com/cmheisel/twitter-dedupe) with minimal changes to update for Python 3 and with updated dependencies. The original readme follows.
 
 My personal use case
 ------------------------

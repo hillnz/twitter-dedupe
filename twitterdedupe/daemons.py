@@ -66,13 +66,13 @@ class LoggingDaemon(object):
                         pass
                     [self.process_status(s) for s in stati]
                     time.sleep(self.interval)
-                except tweepy.error.TweepError, e:
+                except tweepy.error.TweepError as e:
                     self.logger.exception(str(e))
                     self.logger.info("Waiting %s more seconds" % self.interval)
                     time.sleep(self.interval)
         except KeyboardInterrupt:
             raise
-        except Exception, e:
+        except Exception as e:
             self.logger.exception(str(e))
 
 

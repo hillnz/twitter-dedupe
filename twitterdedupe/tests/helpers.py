@@ -3,7 +3,7 @@ import pytest
 
 @pytest.fixture
 def nonetwork_expand_fn():
-    from test_lengthen_url import reqlib
+    from .test_lengthen_url import reqlib
     from twitterdedupe import lengthen_url
 
     def wrapped_lengthen_url(url):
@@ -22,7 +22,7 @@ class MemoryCache(object):
         return self.prefix + key
 
     def keys(self):
-        return self._data.keys()
+        return list(self._data.keys())
 
     def set(self, key, value, timeout=None):
         """Set key-value in cache with given timeout (or use default one)"""

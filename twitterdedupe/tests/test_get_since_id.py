@@ -1,5 +1,5 @@
 import pytest
-from mock import Mock
+from unittest.mock import Mock
 
 
 @pytest.fixture
@@ -10,7 +10,7 @@ def get_since_id():
 
 @pytest.fixture
 def api():
-    from mock import Mock
+    from unittest.mock import Mock
     return Mock()
 
 
