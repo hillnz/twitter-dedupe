@@ -2,6 +2,7 @@
 caches
 """
 
+import os
 from xml.dom import NotSupportedErr
 import boto3
 import json
@@ -48,7 +49,10 @@ class DynamoCache:
     def __init__(self, table_name, prefix='cache|', timeout=60*60):
         """Create DynamoDB cache instance"""
         assert table_name
-        self._table = boto3.resource('dynamodb').Table(table_name)
+        if endpoint_url := os.environ.get('DYNAMODB_ENDPOINT_URL', None):
+            self._table = boto3.resource('dynamodb', endpoint_url=endpoint_url).Table(table_name)
+        else:
+            self._table = boto3.resource('dynamodb').Table(table_name)
         self._prefix = prefix
         self._timeout = timeout
 
@@ -57,7 +61,6 @@ class DynamoCache:
         """Set key-value in cache with given timeout (or use default one)"""
         timeout = timeout or self._timeout
         key = self._prefix + key
-        print(key)
         self._table.put_item(
             Item={
                 'key': key,
@@ -70,13 +73,10 @@ class DynamoCache:
     def get(self, key):
         """Get key-value from cache"""
         data = self._table.get_item(Key={ 'key': self._prefix + key })
-        print(data)
-        if data:
+        if data and 'Item' in data:
             item = data['Item']
             expires = item['expires']
-            print(expires)
             if expires > time.time(): # type: ignore
-                print(item['value'])
                 value = item['value']
                 if isinstance(value, str):
                     return json.loads(value)
@@ -86,4 +86,3 @@ class DynamoCache:
     def flush(self, pattern='', step=1000):
         raise NotSupportedErr()
 
-        

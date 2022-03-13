@@ -30,8 +30,8 @@ class LoggingDaemon(object):
         self.redis_url = env.get('REDISTOGO_URL', None)
         self.dynamo_table = env.get('DYNAMODB_TABLE_NAME', None)
         self.screen_name = env['TWITTER_SCREEN_NAME']
-        self.interval = int(env['WAIT_INTERVAL'])
-        self.log_level = getattr(logging, env['LOG_LEVEL'])
+        self.interval = int(env.get('WAIT_INTERVAL', 300))
+        self.log_level = getattr(logging, env.get('LOG_LEVEL', 'WARN'))
         self.do_retweet = bool(int(env.get('RETWEET', False)))
         self.instance = env.get('INSTANCE')
 
