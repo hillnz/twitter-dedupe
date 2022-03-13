@@ -5,9 +5,9 @@ Python library to retweet unique links from noisy Twitter accounts.
 
 ## Acknowledgement
 
-This is a fork of [cmheisel/twitter-dedupe](https://github.com/cmheisel/twitter-dedupe) with minimal changes to update for Python 3 and with updated dependencies. The original readme follows.
+This is a fork of [cmheisel/twitter-dedupe](https://github.com/cmheisel/twitter-dedupe) with minimal changes to update for Python 3 and with updated dependencies.
 
-My personal use case
+Why this is needed
 ------------------------
 Say you follow a news outlet that tweets the same link multiple times in a day, or a week. Maybe they provide different images or headlines, but it's the same story, over and over again.
 
@@ -25,7 +25,9 @@ How to use
     TWITTER_CONSUMER_SECRET
     TWITTER_ACCESS_TOKEN
     TWITTER_ACCESS_TOKEN_SECRET
+    # Only one of Redis/DynamoDB is needed. Redis will take precedence.
     REDISTOGO_URL=redis://{user}:{pass}@{domain}:{port}
+    DYNAMODB_TABLE_NAME={some_table_name} # see notes below
     TWITTER_SCREEN_NAME={newsoutlet}lite
     WAIT_INTERVAL=300 # Time to wait between polls, in seconds
     LOG_LEVEL=WARN # Or INFO, OR DEBUG, etc.
@@ -34,3 +36,23 @@ How to use
 6. Now you have a deamon running that'll examine @{newsoutlet}lites home timeline, and log any tweets it would retweet as @{newsoutlet}lite
 7. If you're happy quit bin/logonly.py
 8. Now run python bin/retweet.py
+
+## DynamoDB
+
+The table you specify must already exist. It must have a string partition key named "key".
+Optionally, you should set "expires" as the field for TTL (time to live) support so that unused cache items are deleted.
+
+For example, you can create a table with:
+```
+aws dynamodb create-table \
+    --table-name {some_table_name} \
+    --attribute-definitions AttributeName=key,AttributeType=S \
+    --key-schema AttributeName=key,KeyType=HASH
+```
+And enable TTL with:
+```
+aws dynamodb update-time-to-live \
+    --table-name {some_table_name} \
+    --time-to-live-specification \
+        AttributeName=expires,Enabled=true
+```
