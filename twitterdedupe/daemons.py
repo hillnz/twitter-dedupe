@@ -96,7 +96,13 @@ class ToggleDaemon(LoggingDaemon):
     def process_status(self, status):
         verb = "NOOP-RETWEET"
         if self.do_retweet:
-            self.api.retweet(status.id)
+            try:
+                self.api.retweet(status.id)
+            except tweepy.error.TweepError as e:
+                if e.api_code == 327:
+                    self.logger.info("Already retweeted %s" % status.id)
+                else:
+                    raise
             verb = "RETWEET"
         self.logger.info("%s: https://twitter.com/%s/status/%s" %
                          (verb, status.user.screen_name, status.id))
