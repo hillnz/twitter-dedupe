@@ -3,6 +3,10 @@ twitter-dedupe
 
 Python library to retweet unique links from noisy Twitter accounts.
 
+## Killed by Twitter
+
+This project doesn't work due to Twitter's API changes. Original README follows.
+
 ## Acknowledgement
 
 This is a fork of [cmheisel/twitter-dedupe](https://github.com/cmheisel/twitter-dedupe) with minimal changes to update for Python 3 and with updated dependencies.
